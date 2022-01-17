@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+* {
+  padding: 0;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+.working-area {
+  display: flex;
+  padding: 20px 50px;
+}
+
+button {
+  font-size: 16px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+button:hover {
+  color: blue;
+}
+
+button:active {
+  color: rgb(115, 115, 255);
+}
+
+.no-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

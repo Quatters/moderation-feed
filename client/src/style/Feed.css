@@ -1,0 +1,9 @@
+.feed-wrapper {
+  display: flex;
+  margin: 20px 50px 0 50px;
+}
+
+.arrow-button,
+.page-button {
+  font-size: 18px;
+}

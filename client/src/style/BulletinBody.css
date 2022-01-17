@@ -1,0 +1,9 @@
+.bulletin-body {
+  margin: 24px 20px;
+  display: flex;
+}
+
+.bulletin-subject {
+  font-weight: 400;
+  margin-bottom: 20px;
+}

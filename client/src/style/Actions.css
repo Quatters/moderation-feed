@@ -1,0 +1,38 @@
+.actions-wrapper {
+  display: flex;
+  flex-direction: column;
+  text-align: end;
+  margin: 0 30px;
+}
+
+.action {
+  display: flex;
+  align-items: center;
+}
+
+.action > .bullet {
+  margin: 0 6px;
+  padding: 0;
+  font-size: 28px;
+}
+
+.action > .key-hint {
+  color: rgb(141, 141, 141);
+  font-size: 14px;
+}
+
+.approve-action > .bullet {
+  color: green;
+}
+
+.decline-action > .bullet {
+  color: orange;
+}
+
+.escalate-action > .bullet {
+  color: blue;
+}
+
+.save-action > .bullet {
+  color: transparent;
+}

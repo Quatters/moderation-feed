@@ -1,0 +1,8 @@
+.bulletin-image-wrapper {
+  display: flex;
+  justify-content: center;
+  max-width: 380px;
+  flex-wrap: wrap;
+  margin: 12px 8px;
+  border-left: 1px solid lightgray;
+}

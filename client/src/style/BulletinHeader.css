@@ -1,0 +1,10 @@
+.bulletin-header {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 12px 16px;
+  border-bottom: 1px solid lightgray;
+}
+
+.id-area {
+}
