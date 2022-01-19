@@ -1,13 +1,7 @@
-import { React, useReducer } from 'react';
-import { useHotkeys } from 'react-hotkeys-hook';
+import { React, useReducer, useEffect } from 'react';
 import '../style/Actions.css';
 
 function Actions(props) {
-  useHotkeys('space', props.handleApprove);
-  useHotkeys('delete', props.handleDecline);
-  useHotkeys('shift+enter', props.handleEscalate);
-  useHotkeys('f7', props.handleSave);
-
   return (
     <div className='actions-wrapper'>
       <div className='approve-action action'>

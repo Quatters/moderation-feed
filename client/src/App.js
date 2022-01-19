@@ -1,4 +1,5 @@
 import { React, useEffect, useState } from 'react';
+import { HotKeys, GlobalHotKeys } from 'react-hotkeys';
 import Actions from './components/Actions';
 import Bulletin from './components/Bulletin';
 import Feed from './components/Feed';
@@ -20,6 +21,24 @@ function App() {
     tip: '',
   });
   const [saveError, setSaveError] = useState(false);
+
+  const keyMap = {
+    APPROVE: 'space',
+    DECLINE: 'del',
+    ESCALATE: 'shift+enter',
+    SAVE: 'f7',
+    LEFT: 'left',
+    RIGHT: 'right',
+  };
+
+  const hotkeyHandlers = {
+    APPROVE: handleApprove,
+    DECLINE: handleDecline,
+    ESCALATE: handleEscalate,
+    SAVE: handleSave,
+    LEFT: () => handleIndexChange(currentIndex - 1),
+    RIGHT: () => handleIndexChange(currentIndex + 1),
+  };
 
   useEffect(() => {
     callGetBulletins();
@@ -73,12 +92,13 @@ function App() {
     setReasonFieldState({ displayed: false, required: false, tip: '' });
   }
 
-  function handleApprove() {
+  function handleApprove(callback) {
     changeStatus(currentIndex, 'approved');
     bulletins[currentIndex].status = 'approved';
     setBulletins(bulletins);
     hideReasonField();
     moveToNext();
+    if (callback) callback();
   }
 
   function handleDecline() {
@@ -188,6 +208,11 @@ function App() {
 
   return (
     <div className='App'>
+      <GlobalHotKeys
+        keyMap={keyMap}
+        handlers={hotkeyHandlers}
+        allowChanges={true}
+      />
       <Feed
         bulletins={bulletins}
         currentIndex={currentIndex}

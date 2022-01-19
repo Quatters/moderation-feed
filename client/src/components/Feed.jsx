@@ -1,11 +1,7 @@
-import { React } from 'react';
-import { useHotkeys } from 'react-hotkeys-hook';
+import { React, useEffect, useReducer } from 'react';
 import '../style/Feed.css';
 
 function Feed(props) {
-  useHotkeys('left', handleLeft);
-  useHotkeys('right', handleRight);
-
   function handleLeft() {
     props.setIndex(props.currentIndex - 1);
   }
