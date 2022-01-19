@@ -32,9 +32,6 @@ function Actions(props) {
         <span className='bullet no-select'>&bull;</span>
         <span className='key-hint'>F7</span>
       </div>
-      <span className={`text-red error ${props.hidden ? 'hidden' : ''}`}>
-        Пожалуйста, примите решения по всем объявлениям
-      </span>
     </div>
   );
 }

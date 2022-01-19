@@ -1,15 +1,16 @@
 import { React, useEffect, useState } from 'react';
-import { HotKeys, GlobalHotKeys } from 'react-hotkeys';
+import { GlobalHotKeys } from 'react-hotkeys';
 import Actions from './components/Actions';
 import Bulletin from './components/Bulletin';
 import Feed from './components/Feed';
 import './style/shared.css';
+import './style/App.css';
 import { getBulletins, saveBulletins, resetBulletins } from './api-calls';
 import MessageArea from './components/MessageArea';
 
 function App() {
   const [bulletins, setBulletins] = useState([]);
-  const [apiError, setApiError] = useState(false);
+  const [error, seterror] = useState(false);
   const [hasMoreBulletins, setHasMoreBulletins] = useState(true);
   const [requestCompleted, setRequestCompleted] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -58,7 +59,7 @@ function App() {
         }
       })
       .catch(error => {
-        setApiError(true);
+        seterror(true);
       })
       .finally(() => {
         setRequestCompleted(true);
@@ -92,13 +93,12 @@ function App() {
     setReasonFieldState({ displayed: false, required: false, tip: '' });
   }
 
-  function handleApprove(callback) {
+  function handleApprove() {
     changeStatus(currentIndex, 'approved');
     bulletins[currentIndex].status = 'approved';
     setBulletins(bulletins);
     hideReasonField();
     moveToNext();
-    if (callback) callback();
   }
 
   function handleDecline() {
@@ -138,7 +138,7 @@ function App() {
         setAllBulletinsAreMarked(false);
       })
       .catch(error => {
-        setApiError(true);
+        seterror(true);
       })
       .finally(() => {
         setRequestCompleted(true);
@@ -159,7 +159,7 @@ function App() {
   }
 
   function handleReasonChange(event) {
-    setCurrentReason(event.target.value);
+    setCurrentReason(event.target.value.trim());
   }
 
   function handleReasonConfirm() {
@@ -184,26 +184,41 @@ function App() {
         callGetBulletins();
       })
       .catch(error => {
-        setApiError(true);
+        seterror(true);
       });
   }
 
-  if (apiError) {
-    return <div>Ошибка сервера</div>;
+  if (error) {
+    return (
+      <div className='centered'>
+        <div className='error-info'>
+          <h2>Ошибка</h2>
+          <p>
+            Вероятно, я где-то накосячил :( <br />
+            Попробуйте перезагрузить страницу.
+          </p>
+        </div>
+      </div>
+    );
   }
 
   if (!hasMoreBulletins) {
     return (
-      <div>
-        <p>Объявления закончились</p>
-        <p>Нажмите на кнопку, чтобы вернуть объявления к исходному состоянию</p>
-        <button onClick={callResetBulletins}>Вернуть</button>
+      <div className='centered'>
+        <div className='reset-info'>
+          <h2>Объявления закончились</h2>
+          <p>
+            Нажмите Enter или на кнопку ниже, чтобы вернуть объявления к
+            исходному состоянию.
+          </p>
+          <button onClick={callResetBulletins}>Вернуть</button>
+        </div>
       </div>
     );
   }
 
   if (!requestCompleted && hasMoreBulletins) {
-    return <div>Загрузка...</div>;
+    return <div className='centered'>Загрузка...</div>;
   }
 
   return (
@@ -213,11 +228,16 @@ function App() {
         handlers={hotkeyHandlers}
         allowChanges={true}
       />
-      <Feed
-        bulletins={bulletins}
-        currentIndex={currentIndex}
-        setIndex={handleIndexChange}
-      />
+      <div className='feed'>
+        <Feed
+          bulletins={bulletins}
+          currentIndex={currentIndex}
+          setIndex={handleIndexChange}
+        />
+        <p className={`text-red error ${saveError ? '' : 'hidden'}`}>
+          Пожалуйста, примите решения по всем объявлениям
+        </p>
+      </div>
       <div className='working-area'>
         <Bulletin bulletin={bulletins[currentIndex]} />
         <Actions
@@ -225,7 +245,6 @@ function App() {
           handleDecline={handleDecline}
           handleEscalate={handleEscalate}
           handleSave={handleSave}
-          hidden={!saveError}
         />
         <MessageArea
           hidden={!reasonFieldState.displayed}

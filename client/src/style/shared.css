@@ -10,11 +10,6 @@ a {
   text-decoration: none;
 }
 
-.working-area {
-  display: flex;
-  padding: 20px 50px;
-}
-
 button {
   font-size: 16px;
   border: none;
@@ -46,4 +41,10 @@ button:active {
 
 .hidden {
   display: none !important;
+}
+
+.centered {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
 }
