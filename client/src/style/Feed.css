@@ -6,4 +6,21 @@
 .arrow-button,
 .page-button {
   font-size: 18px;
+  border-radius: 10px;
+}
+
+.active {
+  background-color: rgb(228, 228, 228);
+}
+
+.approved {
+  color: green;
+}
+
+.declined {
+  color: orange;
+}
+
+.escalated {
+  color: blue;
 }

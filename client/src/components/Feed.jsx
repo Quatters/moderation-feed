@@ -1,16 +1,42 @@
-import React from 'react';
+import { React } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
 import '../style/Feed.css';
 
 function Feed(props) {
+  useHotkeys('left', handleLeft);
+  useHotkeys('right', handleRight);
+
+  function handleLeft() {
+    props.setIndex(props.currentIndex - 1);
+  }
+
+  function handleRight() {
+    props.setIndex(props.currentIndex + 1);
+  }
+
+  function handleSelect(event) {
+    props.setIndex(event.target.innerText - 1);
+  }
+
   return (
     <div className='feed-wrapper'>
-      <button className='arrow-button'>&larr;</button>
-      {[...Array(10)].map((x, i) => (
-        <button className='page-button' key={i}>
+      <button onClick={handleLeft} className='arrow-button'>
+        &larr;
+      </button>
+      {props.bulletins.map(({ status }, i) => (
+        <button
+          onClick={handleSelect}
+          className={`page-button ${status} ${
+            props.currentIndex === i ? 'active' : ''
+          }`}
+          key={i}
+        >
           {i + 1}
         </button>
       ))}
-      <button className='arrow-button'>&rarr;</button>
+      <button onClick={handleRight} className='arrow-button'>
+        &rarr;
+      </button>
     </div>
   );
 }

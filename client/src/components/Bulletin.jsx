@@ -6,10 +6,14 @@ import '../style/Bulletin.css';
 function Bulletin(props) {
   return (
     <div className='bulletin'>
-      <BulletinHeader />
+      <BulletinHeader
+        id={props.bulletin.id}
+        publishDateString={props.bulletin.publishDateString}
+        ownerLogin={props.bulletin.ownerLogin}
+      />
       <BulletinBody
-        bulletinSubject='Название объявления'
-        bulletinText='Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium aspernatur recusandae molestiae distinctio? Quis beatae sed quaerat, magni consectetur architecto repellendus velit deserunt. Id fuga tempore omnis! Quod, totam nostrum.'
+        bulletinSubject={props.bulletin.bulletinSubject}
+        bulletinText={props.bulletin.bulletinText}
       />
     </div>
   );

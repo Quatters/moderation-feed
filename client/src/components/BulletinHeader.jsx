@@ -5,12 +5,12 @@ function BulletinHeader(props) {
   return (
     <div className='bulletin-header'>
       <div className='id-area'>
-        <a href='#'>{props.id || '1234567'}</a>
+        <a href='#'>{props.id}</a>
         <span>&nbsp;—&nbsp;</span>
-        <span>{props.publishDateString || '08:46, сегодня'}</span>
+        <span>{props.publishDateString}</span>
       </div>
       <div className='owner-area'>
-        <a href='#'>{props.ownerLogin || 'Quatters'}</a>
+        <a href='#'>{props.ownerLogin}</a>
       </div>
     </div>
   );

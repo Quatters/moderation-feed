@@ -1,0 +1,17 @@
+.message-area {
+  display: flex;
+  flex-direction: column;
+}
+
+.message-area > button {
+  margin-top: 10px;
+  background-color: rgb(228, 228, 228);
+  border-radius: 10px;
+  padding: 6px 16px;
+  align-self: center;
+}
+
+.message-area > textarea {
+  margin-top: 10px;
+  resize: vertical;
+}

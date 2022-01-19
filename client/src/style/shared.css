@@ -39,3 +39,11 @@ button:active {
   -ms-user-select: none;
   user-select: none;
 }
+
+.text-red {
+  color: red;
+}
+
+.hidden {
+  display: none !important;
+}

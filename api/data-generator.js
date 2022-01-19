@@ -27,4 +27,8 @@ function getBulletins(count) {
   return bulletins;
 }
 
-module.exports = getBulletins;
+function resetCount() {
+  count = 0;
+}
+
+module.exports = { getBulletins, resetCount };
