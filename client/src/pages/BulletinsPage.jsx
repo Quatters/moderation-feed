@@ -39,7 +39,7 @@ function BulletinsPage(props) {
           setIndex={props.handlers.handleIndexChange}
         />
         <p
-          className={`text-red error ${
+          className={`text-red error no-select ${
             props.states.saveError ? '' : 'visually-hidden'
           }`}
         >
