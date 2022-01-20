@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Error() {
+function ErrorPage() {
   return (
     <div className='centered'>
       <div className='info'>
@@ -14,4 +14,4 @@ function Error() {
   );
 }
 
-export default Error;
+export default ErrorPage;

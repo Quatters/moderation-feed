@@ -1,10 +1,10 @@
 import { React, useState } from 'react';
 import { getBulletins, saveBulletins, resetBulletins } from './api-calls';
-import Error from './pages/Error';
-import Loading from './pages/Loading';
-import NoMoreBulletins from './pages/NoMoreBulletins';
-import Start from './pages/Start';
-import Bulletins from './pages/Bulletins';
+import ErrorPage from './pages/ErrorPage';
+import LoadingPage from './pages/LoadingPage';
+import NoMoreBulletinsPage from './pages/NoMoreBulletinsPage';
+import StartPage from './pages/StartPage';
+import BulletinsPage from './pages/BulletinsPage';
 import './style/shared.css';
 import './style/App.css';
 
@@ -193,12 +193,12 @@ function App() {
 
   let page;
 
-  if (error) page = <Error />;
-  else if (firstStart) page = <Start onStart={start} />;
+  if (error) page = <ErrorPage />;
+  else if (firstStart) page = <StartPage onStart={start} />;
   else if (!hasMoreBulletins)
-    page = <NoMoreBulletins onReset={callResetBulletins} />;
-  else if (!requestCompleted && hasMoreBulletins) page = <Loading />;
-  else page = <Bulletins handlers={handlers} states={states} />;
+    page = <NoMoreBulletinsPage onReset={callResetBulletins} />;
+  else if (!requestCompleted && hasMoreBulletins) page = <LoadingPage />;
+  else page = <BulletinsPage handlers={handlers} states={states} />;
 
   return <div className='App'>{page}</div>;
 }

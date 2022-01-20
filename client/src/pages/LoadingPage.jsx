@@ -1,7 +1,7 @@
 import React from 'react';
 
-function Loading() {
+function LoadingPage() {
   return <div className='centered'>Загрузка...</div>;
 }
 
-export default Loading;
+export default LoadingPage;

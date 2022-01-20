@@ -5,7 +5,7 @@ import Bulletin from '../components/Bulletin';
 import Actions from '../components/Actions';
 import MessageArea from '../components/MessageArea';
 
-function Bulletins(props) {
+function BulletinsPage(props) {
   const keyMap = {
     APPROVE: 'space',
     DECLINE: 'del',
@@ -69,4 +69,4 @@ function Bulletins(props) {
   );
 }
 
-export default Bulletins;
+export default BulletinsPage;

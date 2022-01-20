@@ -1,7 +1,7 @@
 import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
 
-function NoMoreBulletins(props) {
+function NoMoreBulletinsPage(props) {
   const keyMap = {
     ENTER: 'enter',
   };
@@ -29,4 +29,4 @@ function NoMoreBulletins(props) {
   );
 }
 
-export default NoMoreBulletins;
+export default NoMoreBulletinsPage;

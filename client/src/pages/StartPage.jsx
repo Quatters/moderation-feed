@@ -1,7 +1,7 @@
 import React from 'react';
 import { GlobalHotKeys } from 'react-hotkeys';
 
-function Start(props) {
+function StartPage(props) {
   const keyMap = {
     ENTER: 'enter',
   };
@@ -26,4 +26,4 @@ function Start(props) {
   );
 }
 
-export default Start;
+export default StartPage;
