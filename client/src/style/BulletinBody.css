@@ -3,10 +3,6 @@
   display: flex;
 }
 
-.bulletin-body > .bulletin-text {
-  /* width: 100%; */
-}
-
 .bulletin-subject {
   font-weight: 400;
   margin-bottom: 20px;
