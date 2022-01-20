@@ -4,17 +4,13 @@ function getBulletin() {
   count++;
   return {
     id: count,
-    // TODO: возвращать дату в зависимости от count
     publishDate: Date.now(),
-    publishDateString: '08:46, сегодня',
+    publishDateString: new Date().toLocaleString('ru-RU'),
     ownerId: 1234567,
     ownerLogin: `Owner ${count}`,
     bulletinSubject: `Заголовок объявления ${count}`,
-    bulletinText: `Текст объявления ${count}`,
-    // TODO: возвращать от 1 до 3 изображений в массиве
-    bulletinImages: [
-      'https://static.baza.farpost.ru/v/1510541224458_hugeBlock',
-    ],
+    bulletinText: generateText(),
+    bulletinImages: generateImageArray(),
   };
 }
 
@@ -29,6 +25,25 @@ function getBulletins(count) {
 
 function resetCount() {
   count = 0;
+}
+
+function generateImageArray() {
+  const imageCount = Math.floor(Math.random() * 4);
+  let images = [];
+  for (let i = 0; i < imageCount; i++) {
+    images.push('https://static.baza.farpost.ru/v/1510541224458_hugeBlock');
+  }
+  return images;
+}
+
+function generateText() {
+  const phrasesCount = Math.floor(Math.random() * 299) + 1;
+  let phrase = `Текст объявления ${count} `;
+  let text = '';
+  for (let i = 0; i < phrasesCount; i++) {
+    text += phrase;
+  }
+  return text;
 }
 
 module.exports = { getBulletins, resetCount };
