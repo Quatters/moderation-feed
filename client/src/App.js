@@ -77,7 +77,8 @@ function App() {
     setReasonFieldState({ displayed: false, required: false, tip: '' });
   }
 
-  function handleApprove() {
+  function handleApprove(event) {
+    event?.preventDefault();
     changeStatus(currentIndex, 'approved');
     bulletins[currentIndex].status = 'approved';
     setBulletins(bulletins);

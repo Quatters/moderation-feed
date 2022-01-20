@@ -16,7 +16,7 @@ function Bulletins(props) {
   };
 
   const hotkeyHandlers = {
-    APPROVE: props.handlers.handleApprove,
+    APPROVE: event => props.handlers.handleApprove(event),
     DECLINE: props.handlers.handleDecline,
     ESCALATE: props.handlers.handleEscalate,
     SAVE: props.handlers.handleSave,
