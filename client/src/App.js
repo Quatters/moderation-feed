@@ -145,17 +145,17 @@ function App() {
   }
 
   function handleReasonChange(event) {
-    setCurrentReason(event.target.value.trim());
+    setCurrentReason(event.target.value);
   }
 
   function handleReasonConfirm() {
-    if (reasonFieldState.required && currentReason === '') return;
+    if (reasonFieldState.required && currentReason.trim() === '') return;
 
     setBulletins(bulletins);
     changeStatus(
       currentIndex,
       reasonFieldState.required ? 'declined' : 'escalated',
-      currentReason
+      currentReason.trim()
     );
     setCurrentReason('');
     setReasonFieldState({ required: false, displayed: false, tip: '' });
