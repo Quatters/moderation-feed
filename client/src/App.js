@@ -10,9 +10,9 @@ import MessageArea from './components/MessageArea';
 
 function App() {
   const [bulletins, setBulletins] = useState([]);
-  const [error, seterror] = useState(false);
+  const [error, setError] = useState(false);
   const [hasMoreBulletins, setHasMoreBulletins] = useState(true);
-  const [requestCompleted, setRequestCompleted] = useState(false);
+  const [requestCompleted, setRequestCompleted] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [allBulletinsAreMarked, setAllBulletinsAreMarked] = useState(false);
   const [currentReason, setCurrentReason] = useState('');
@@ -22,6 +22,7 @@ function App() {
     tip: '',
   });
   const [saveError, setSaveError] = useState(false);
+  const [firstStart, setFirstStart] = useState(true);
 
   const keyMap = {
     APPROVE: 'space',
@@ -30,6 +31,7 @@ function App() {
     SAVE: 'f7',
     LEFT: 'left',
     RIGHT: 'right',
+    ENTER: 'enter',
   };
 
   const hotkeyHandlers = {
@@ -39,11 +41,17 @@ function App() {
     SAVE: handleSave,
     LEFT: () => handleIndexChange(currentIndex - 1),
     RIGHT: () => handleIndexChange(currentIndex + 1),
+    ENTER: handleEnter,
   };
 
   useEffect(() => {
-    callGetBulletins();
+    // callGetBulletins();
   }, []);
+
+  function start() {
+    setFirstStart(false);
+    callGetBulletins();
+  }
 
   function callGetBulletins() {
     setRequestCompleted(false);
@@ -59,11 +67,19 @@ function App() {
         }
       })
       .catch(error => {
-        seterror(true);
+        setError(true);
       })
       .finally(() => {
         setRequestCompleted(true);
       });
+  }
+
+  function handleEnter() {
+    if (firstStart) {
+      start();
+    } else if (!hasMoreBulletins) {
+      callResetBulletins();
+    }
   }
 
   function handleIndexChange(newIndex) {
@@ -138,7 +154,7 @@ function App() {
         setAllBulletinsAreMarked(false);
       })
       .catch(error => {
-        seterror(true);
+        setError(true);
       })
       .finally(() => {
         setRequestCompleted(true);
@@ -184,14 +200,14 @@ function App() {
         callGetBulletins();
       })
       .catch(error => {
-        seterror(true);
+        setError(true);
       });
   }
 
   if (error) {
     return (
       <div className='centered'>
-        <div className='error-info'>
+        <div className='info'>
           <h2>Ошибка</h2>
           <p>
             Вероятно, я где-то накосячил :( <br />
@@ -202,10 +218,32 @@ function App() {
     );
   }
 
+  if (firstStart) {
+    return (
+      <div className='centered'>
+        <GlobalHotKeys
+          keyMap={keyMap}
+          handlers={hotkeyHandlers}
+          allowChanges={true}
+        />
+        <div className='info'>
+          <h2>Приветствуем модератора!</h2>
+          <p>Нажмите Enter или на кнопку ниже, чтобы приступить к работе.</p>
+          <button onClick={start}>Начать</button>
+        </div>
+      </div>
+    );
+  }
+
   if (!hasMoreBulletins) {
     return (
       <div className='centered'>
-        <div className='reset-info'>
+        <GlobalHotKeys
+          keyMap={keyMap}
+          handlers={hotkeyHandlers}
+          allowChanges={true}
+        />
+        <div className='info'>
           <h2>Объявления закончились</h2>
           <p>
             Нажмите Enter или на кнопку ниже, чтобы вернуть объявления к
@@ -234,7 +272,7 @@ function App() {
           currentIndex={currentIndex}
           setIndex={handleIndexChange}
         />
-        <p className={`text-red error ${saveError ? '' : 'hidden'}`}>
+        <p className={`text-red error ${saveError ? '' : 'visually-hidden'}`}>
           Пожалуйста, примите решения по всем объявлениям
         </p>
       </div>

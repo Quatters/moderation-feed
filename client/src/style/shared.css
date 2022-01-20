@@ -43,6 +43,10 @@ button:active {
   display: none !important;
 }
 
+.visually-hidden {
+  opacity: 0 !important;
+}
+
 .centered {
   display: flex;
   justify-content: center;

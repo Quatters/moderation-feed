@@ -11,7 +11,7 @@ const host = 'localhost';
 const port = 3001;
 
 // предполагается, что в БД на момент обращения находится столько постов
-const maxBulletins = 19;
+const maxBulletins = 23;
 let bulletinsGenerated = 0;
 let bulletinsProcessed = true;
 let prevBulletins = [];
