@@ -12,8 +12,9 @@ function Bulletin(props) {
         ownerLogin={props.bulletin.ownerLogin}
       />
       <BulletinBody
-        bulletinSubject={props.bulletin.bulletinSubject}
-        bulletinText={props.bulletin.bulletinText}
+        subject={props.bulletin.bulletinSubject}
+        text={props.bulletin.bulletinText}
+        images={props.bulletin.bulletinImages}
       />
     </div>
   );

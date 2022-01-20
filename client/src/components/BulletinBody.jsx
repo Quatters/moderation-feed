@@ -7,13 +7,11 @@ function BulletinBody(props) {
     <div className='bulletin-body'>
       <div>
         <h2 className='bulletin-subject'>
-          {props.bulletinSubject || 'bulletinSubject'}
+          {props.subject || 'bulletinSubject'}
         </h2>
-        <div className='bulletin-text'>
-          {props.bulletinText || 'bulletinText'}
-        </div>
+        <div className='bulletin-text'>{props.text || 'bulletinText'}</div>
       </div>
-      <BulletinImageWrapper />
+      <BulletinImageWrapper images={props.images} />
     </div>
   );
 }
