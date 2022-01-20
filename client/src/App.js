@@ -1,12 +1,12 @@
-import { React, useEffect, useState } from 'react';
-import { GlobalHotKeys } from 'react-hotkeys';
-import Actions from './components/Actions';
-import Bulletin from './components/Bulletin';
-import Feed from './components/Feed';
+import { React, useState } from 'react';
+import { getBulletins, saveBulletins, resetBulletins } from './api-calls';
+import Error from './pages/Error';
+import Loading from './pages/Loading';
+import NoMoreBulletins from './pages/NoMoreBulletins';
+import Start from './pages/Start';
+import Bulletins from './pages/Bulletins';
 import './style/shared.css';
 import './style/App.css';
-import { getBulletins, saveBulletins, resetBulletins } from './api-calls';
-import MessageArea from './components/MessageArea';
 
 function App() {
   const [bulletins, setBulletins] = useState([]);
@@ -24,33 +24,9 @@ function App() {
   const [saveError, setSaveError] = useState(false);
   const [firstStart, setFirstStart] = useState(true);
 
-  const keyMap = {
-    APPROVE: 'space',
-    DECLINE: 'del',
-    ESCALATE: 'shift+enter',
-    SAVE: 'f7',
-    LEFT: 'left',
-    RIGHT: 'right',
-    ENTER: 'enter',
-  };
-
-  const hotkeyHandlers = {
-    APPROVE: handleApprove,
-    DECLINE: handleDecline,
-    ESCALATE: handleEscalate,
-    SAVE: handleSave,
-    LEFT: () => handleIndexChange(currentIndex - 1),
-    RIGHT: () => handleIndexChange(currentIndex + 1),
-    ENTER: handleEnter,
-  };
-
-  useEffect(() => {
-    // callGetBulletins();
-  }, []);
-
   function start() {
-    setFirstStart(false);
     callGetBulletins();
+    setFirstStart(false);
   }
 
   function callGetBulletins() {
@@ -58,9 +34,9 @@ function App() {
     getBulletins()
       .then(response => {
         if (response.status === 200) {
-          setBulletins(response.data);
           setCurrentIndex(0);
           setHasMoreBulletins(true);
+          setBulletins(response.data);
         } else if (response.status === 204) {
           setHasMoreBulletins(false);
           setBulletins([]);
@@ -72,14 +48,6 @@ function App() {
       .finally(() => {
         setRequestCompleted(true);
       });
-  }
-
-  function handleEnter() {
-    if (firstStart) {
-      start();
-    } else if (!hasMoreBulletins) {
-      callResetBulletins();
-    }
   }
 
   function handleIndexChange(newIndex) {
@@ -147,6 +115,7 @@ function App() {
       }, 5000);
       return;
     }
+
     setRequestCompleted(false);
     saveBulletins(bulletins)
       .then(() => {
@@ -163,6 +132,7 @@ function App() {
 
   function moveToNext() {
     if (allBulletinsAreMarked) return;
+
     let i = currentIndex + 1 < bulletins.length ? currentIndex + 1 : 0;
     while (bulletins[i].status) {
       i = i + 1 < bulletins.length ? i + 1 : 0;
@@ -187,10 +157,8 @@ function App() {
       reasonFieldState.required ? 'declined' : 'escalated',
       currentReason
     );
-
     setCurrentReason('');
     setReasonFieldState({ required: false, displayed: false, tip: '' });
-
     moveToNext();
   }
 
@@ -204,97 +172,34 @@ function App() {
       });
   }
 
-  if (error) {
-    return (
-      <div className='centered'>
-        <div className='info'>
-          <h2>Ошибка</h2>
-          <p>
-            Вероятно, я где-то накосячил :( <br />
-            Попробуйте перезагрузить страницу.
-          </p>
-        </div>
-      </div>
-    );
-  }
+  const handlers = {
+    handleIndexChange,
+    handleApprove,
+    handleDecline,
+    handleEscalate,
+    handleSave,
+    handleReasonChange,
+    handleReasonConfirm,
+  };
 
-  if (firstStart) {
-    return (
-      <div className='centered'>
-        <GlobalHotKeys
-          keyMap={keyMap}
-          handlers={hotkeyHandlers}
-          allowChanges={true}
-        />
-        <div className='info'>
-          <h2>Приветствуем модератора!</h2>
-          <p>Нажмите Enter или на кнопку ниже, чтобы приступить к работе.</p>
-          <button onClick={start}>Начать</button>
-        </div>
-      </div>
-    );
-  }
+  const states = {
+    bulletins,
+    currentIndex,
+    reasonFieldState,
+    currentReason,
+    saveError,
+  };
 
-  if (!hasMoreBulletins) {
-    return (
-      <div className='centered'>
-        <GlobalHotKeys
-          keyMap={keyMap}
-          handlers={hotkeyHandlers}
-          allowChanges={true}
-        />
-        <div className='info'>
-          <h2>Объявления закончились</h2>
-          <p>
-            Нажмите Enter или на кнопку ниже, чтобы вернуть объявления к
-            исходному состоянию.
-          </p>
-          <button onClick={callResetBulletins}>Вернуть</button>
-        </div>
-      </div>
-    );
-  }
+  let page;
 
-  if (!requestCompleted && hasMoreBulletins) {
-    return <div className='centered'>Загрузка...</div>;
-  }
+  if (error) page = <Error />;
+  else if (firstStart) page = <Start onStart={start} />;
+  else if (!hasMoreBulletins)
+    page = <NoMoreBulletins onReset={callResetBulletins} />;
+  else if (!requestCompleted && hasMoreBulletins) page = <Loading />;
+  else page = <Bulletins handlers={handlers} states={states} />;
 
-  return (
-    <div className='App'>
-      <GlobalHotKeys
-        keyMap={keyMap}
-        handlers={hotkeyHandlers}
-        allowChanges={true}
-      />
-      <div className='feed'>
-        <Feed
-          bulletins={bulletins}
-          currentIndex={currentIndex}
-          setIndex={handleIndexChange}
-        />
-        <p className={`text-red error ${saveError ? '' : 'visually-hidden'}`}>
-          Пожалуйста, примите решения по всем объявлениям
-        </p>
-      </div>
-      <div className='working-area'>
-        <Bulletin bulletin={bulletins[currentIndex]} />
-        <Actions
-          handleApprove={handleApprove}
-          handleDecline={handleDecline}
-          handleEscalate={handleEscalate}
-          handleSave={handleSave}
-        />
-        <MessageArea
-          hidden={!reasonFieldState.displayed}
-          tip={reasonFieldState.tip}
-          onChange={handleReasonChange}
-          value={currentReason}
-          onConfirm={handleReasonConfirm}
-          required={reasonFieldState.required}
-        />
-      </div>
-    </div>
-  );
+  return <div className='App'>{page}</div>;
 }
 
 export default App;

@@ -35,7 +35,8 @@ app.get('/api/bulletins', (req, res) => {
 });
 
 app.post('/api/bulletins', (req, res) => {
-  console.log(req.body);
+  console.log(`Обработанные объявления от ${new Date()}`);
+  console.table(req.body);
   bulletinsProcessed = true;
   return res.sendStatus(200);
 });
