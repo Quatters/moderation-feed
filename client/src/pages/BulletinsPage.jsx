@@ -17,9 +17,9 @@ function BulletinsPage(props) {
 
   const hotkeyHandlers = {
     APPROVE: event => props.handlers.handleApprove(event),
-    DECLINE: props.handlers.handleDecline,
-    ESCALATE: props.handlers.handleEscalate,
-    SAVE: props.handlers.handleSave,
+    DECLINE: event => props.handlers.handleDecline(event),
+    ESCALATE: event => props.handlers.handleEscalate(event),
+    SAVE: event => props.handlers.handleSave(event),
     LEFT: () => props.handlers.handleIndexChange(props.states.currentIndex - 1),
     RIGHT: () =>
       props.handlers.handleIndexChange(props.states.currentIndex + 1),

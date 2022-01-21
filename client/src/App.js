@@ -86,7 +86,8 @@ function App() {
     moveToNext();
   }
 
-  function handleDecline() {
+  function handleDecline(event) {
+    event?.preventDefault();
     setReasonFieldState({
       displayed: true,
       required: true,
@@ -94,7 +95,8 @@ function App() {
     });
   }
 
-  function handleEscalate() {
+  function handleEscalate(event) {
+    event?.preventDefault();
     setReasonFieldState({
       displayed: true,
       required: false,
@@ -108,7 +110,8 @@ function App() {
     setBulletins(bulletins);
   }
 
-  function handleSave() {
+  function handleSave(event) {
+    event?.preventDefault();
     if (bulletins.find(bulletin => !bulletin.hasOwnProperty('status'))) {
       setSaveError(true);
       setTimeout(() => {
