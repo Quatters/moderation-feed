@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(express.static(__dirname + '/client/'));
 
 const host = 'localhost';
-const port = 3001;
+const port = process.env.PORT || 3001;
 
 // предполагается, что в БД на момент обращения находится столько постов
 const maxBulletins = 23;

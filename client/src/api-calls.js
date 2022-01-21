@@ -1,6 +1,9 @@
 import axios from 'axios';
 
-const apiUrl = 'http://localhost:3001';
+const apiUrl =
+  process.env.NODE_ENV === 'production'
+    ? 'https://moderation-feed.herokuapp.com'
+    : 'http://localhost:3001';
 
 export async function getBulletins() {
   const response = await axios.get(apiUrl + '/api/bulletins');
