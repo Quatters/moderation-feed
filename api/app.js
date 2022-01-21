@@ -6,6 +6,7 @@ const app = express();
 
 app.use(cors('*'));
 app.use(express.json());
+app.use(express.static(__dirname + '/client/'));
 
 const host = 'localhost';
 const port = 3001;
@@ -46,6 +47,10 @@ app.get('/api/bulletins/reset', (req, res) => {
   bulletinsProcessed = true;
   resetCount();
   return res.sendStatus(200);
+});
+
+app.get('/', (req, res) => {
+  return res.sendFile('index.html', { root: 'client' });
 });
 
 app.listen(port, host, () => {
