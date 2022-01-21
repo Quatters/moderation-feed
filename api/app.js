@@ -53,6 +53,6 @@ app.get('/', (req, res) => {
   return res.sendFile('index.html', { root: 'client' });
 });
 
-app.listen(port, host, () => {
-  console.log(`Server listens http://${host}:${port}`);
+app.listen(port, () => {
+  console.log(`Server listens on port ${port}`);
 });
