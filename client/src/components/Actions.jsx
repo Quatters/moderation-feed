@@ -1,4 +1,4 @@
-import { React, useReducer, useEffect } from 'react';
+import { React } from 'react';
 import '../style/Actions.css';
 
 function Actions(props) {
